@@ -12,7 +12,7 @@ class CityController extends Controller
 {
     use ApiResponse;
 
-    public function index() 
+    public function index()
     {
         $cities = City::all(['id', 'name']);
 
@@ -26,8 +26,8 @@ class CityController extends Controller
         $city = City::find($id);
 
         if (!$city) return $this->responseError('City not found.');
-    
-        return $this->responseSuccess($city->only(['name']));   
+
+        return $this->responseSuccess($city->only(['name']));
     }
     public function store(Request $request)
     {
@@ -39,11 +39,7 @@ class CityController extends Controller
 
         $validatedData = $validator->valid();
 
-        // $admin = $request->user()->
-        
-        // $city = City::create($validatedData);
         $city = $request->user()->cities()->create($validatedData);
-
 
         if (!$city) return $this->responseError('City failed created.');
 
@@ -58,7 +54,7 @@ class CityController extends Controller
 
         if ($validator->fails()) return $this->responseError($validator->errors()->first());
 
-        
+
         $city = City::find($id);
 
         if (!$city) return $this->responseError('City not found.');

@@ -18,7 +18,7 @@ class StudentController extends Controller
         $students = Students::all();
 
         return $this->responseSuccess([
-            'students' => $students
+            'students' => $students->load('city:id,name')
         ]);
     }
 
@@ -32,7 +32,7 @@ class StudentController extends Controller
     }
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'nim' => ['required', 'unique:students,nim'],
             'name' => ['required', 'string'],
             'born_date' => ['required', 'date'],
@@ -51,12 +51,11 @@ class StudentController extends Controller
         if (!$student) return $this->responseError('Student create failed.');
 
         return $this->responseSuccess('Student successfully created.');
-    
     }
 
     public function edit(Request $request, $id)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'nim' => ['required', 'numeric', Rule::unique('students', 'nim')->ignore($id)],
             'name' => ['required', 'string'],
             'born_date' => ['required', 'date'],
@@ -78,9 +77,8 @@ class StudentController extends Controller
         $update = $student->update($validatedData);
 
         if (!$update) return $this->responseError('Student update failed.');
-        
+
         return $this->responseSuccess('Student successfully updated.');
-    
     }
 
     public function delete($id)
@@ -93,10 +91,7 @@ class StudentController extends Controller
         $delete = $student->delete();
 
         if (!$delete) return $this->responseError('Student delete failed.');
-        
+
         return $this->responseSuccess('Student successfully deleted.');
-    
     }
-
-
 }
