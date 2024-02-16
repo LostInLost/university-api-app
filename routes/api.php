@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CityController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/', [AdminController::class, 'store']);
 
     Route::prefix('dashboard')->middleware('auth:sanctum')->group(function() {
+        Route::get('/', [DashboardController::class, 'index']);
         Route::prefix('cities')->group(function () {
             Route::get('/', [CityController::class, 'index']);
             Route::get('/{id}', [CityController::class, 'detail']);

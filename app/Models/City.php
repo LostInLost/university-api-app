@@ -11,4 +11,9 @@ class City extends Model
     use HasFactory, HasUuids;
 
     protected $guarded = ['id'];
+
+    public function students()
+    {
+        return $this->hasMany(Students::class);
+    }
 }

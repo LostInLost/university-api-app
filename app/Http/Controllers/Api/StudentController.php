@@ -15,7 +15,9 @@ class StudentController extends Controller
 
     public function index(Request $request)
     {
-        $students = Students::all();
+        $students = Students::filter($request)
+        // ->orWhere('nim', 'LIKE', "%1005%")
+        ->get();
 
         return $this->responseSuccess([
             'students' => $students->load('city:id,name')
